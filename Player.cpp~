@@ -1,0 +1,54 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include "Room.h"
+#include "Item.h"
+#include "Player.h"
+
+using namespace std;
+
+Player::Player(Room* room){
+  currentRoom = room;
+}
+Room* Player::getCurrentRoom(){
+  return currentRoom;	
+}
+void Player::setCurrentRoom(Room* newRoom) {
+  currentRoom = newRoom;
+}
+void Player::addItem(Item* item) {
+  items.push_back(item);
+}
+Item* Player::takeItem(char* itemName){
+  vector<Item*>::iterator i;
+  for(i = items.begin(); i != items.end(); i++){
+    if(strcmp((*i)->getName(), itemName) == 0){
+      Item* item = (*i);
+      i = items.erase(i);
+      return(item);
+    }
+  }
+  return 0;
+}
+void Player::printInventory(){
+  vector<Item*>::iterator i;
+  for(i = items.begin(); i != items.end(); i++){
+    cout << (*i)->getName() << " ";
+  }
+}
+void Player::checkWin() {
+  vector<Item*>::iterator i;
+  for (i = items.begin(); i!= items.end(); i++) {
+    if ((strcmp((*i)->getName(), "Infinity_Edge") == 0)) {
+      cout << "You have found the Infinity Edge and are able to kill anything!" << endl;
+    }
+  }
+}
+
+bool Player::won(char* itemName) {
+  if (strcmp(itemName, "Infinity_Edge") == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}

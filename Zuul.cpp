@@ -1,0 +1,179 @@
+#include <iostream>
+#include <cstring>
+#include "Room.h"
+#include "Item.h"
+#include "Player.h"
+/*Zuul code
+Program created by: Gregory Feng
+Program Desc: Mini adventure program where the player travels around a map of the summoner's rift and tries to find a certain item to win.
+Sources: Sethu E.
+ */
+
+
+using namespace std;
+
+int main() {
+  char input[20];
+  bool running = true;
+  
+  Room* firstRoom = new Room(); //Room creation and definitions
+  strcpy(firstRoom->getName(), "Nexus");
+  strcpy(firstRoom->getDescription(), "In front of you is a glowing blue crystal, pulsating with mysterious power");
+  Player* p = new Player(firstRoom);
+  Room* secondRoom = new Room();
+  strcpy(secondRoom->getName(), "Top lane inner turret");
+  strcpy(secondRoom->getDescription(), "You look up and see a towering turret in the shape of a man, humming with energy.");
+  Room* thirdRoom = new Room();
+  strcpy(thirdRoom->getName(), "Top lane outer turret");
+  strcpy(thirdRoom->getDescription(), "This turret marks the edge of the blue side's land and is before an expanse of grass plains.");
+  Room* fourthRoom = new Room();
+  strcpy(fourthRoom->getName(), "Baron pit");
+  strcpy(fourthRoom->getDescription(), "The winding path you have been walking on leads straight to a pit, from which a towering monster emerges.");
+  Room* fifthRoom = new Room();
+  strcpy(fifthRoom->getName(), "Gromp");
+  strcpy(fifthRoom->getDescription(), "This grotesque-looking creature hops about its territory, protecting everything it owns with a vehemence.");
+  Room* sixthRoom = new Room();
+  strcpy(sixthRoom->getName(), "Blue buff");
+  strcpy(sixthRoom->getDescription(), "This immense stone giant defends this land, giving sanctuary to all wild monsters that come to it.");
+  Room* seventhRoom = new Room();
+  strcpy(seventhRoom->getName(), "Wolves");
+  strcpy(seventhRoom->getDescription(), "A pack of ferocious wolves reside in this portion of the jungle, led by a wolf leader and its two minions.");
+  Room* eigthRoom = new Room();
+  strcpy(eigthRoom->getName(), "Mid lane inner turret");
+  strcpy(eigthRoom->getDescription(), "This turret looks down on you as you pass by its intricate base.");
+  Room* ninthRoom = new Room();
+  strcpy(ninthRoom->getName(), "Mid lane outer turret");
+  strcpy(ninthRoom->getDescription(), "This turret leads to a patch of land that has been known to be the central portion of the Summoner's Rift");
+  Room* tenthRoom = new Room();
+  strcpy(tenthRoom->getName(), "Raptor camp");
+  strcpy(tenthRoom->getDescription(), "Though they may seem cute, these ferocious critters can pack a real punch");
+  Room* eleventhRoom = new Room();
+  strcpy(eleventhRoom->getName(), "Red buff");
+  strcpy(eleventhRoom->getDescription(), "This quadrupedal creature emits a fiery aura and protects the more tropical creatures of the jungle.");
+  Room* twelvethRoom = new Room();
+  strcpy(twelvethRoom->getName(), "Krugs");
+  strcpy(twelvethRoom->getDescription(), "These rock-like creatures bourne at ancient times have lived in solitude for thousands of years.");
+  Room* thirteenthRoom = new Room();
+  strcpy(thirteenthRoom->getName(), "Bottom lane inner turret");
+  strcpy(thirteenthRoom->getDescription(), "This turret has strange markings on it resembling scorch marks and hits from a... blade? A battle must have gone down near here.");
+  Room* fourteenthRoom = new Room();
+  strcpy(fourteenthRoom->getName(), "Bottom lane outer turret");
+  strcpy(fourteenthRoom->getDescription(), "This turret is half-broken stones cracked and its hum of power far less intense than its middle and upper counterparts");
+  Room* fifteenthRoom = new Room();
+  strcpy(fifteenthRoom->getName(), "Dragon pit");
+  strcpy(fifteenthRoom->getDescription(), "This lonely pit houses one of the greatest monsters of the Summoner's Rift: The elemental drakes.");
+  firstRoom->getExits()->insert(pair<const char*, Room*>("left", secondRoom)); //Bit of code gotten from Sethu (unknown period)
+  firstRoom->getExits()->insert(pair<const char*, Room*>("straight", eigthRoom)); //First way
+  firstRoom->getExits()->insert(pair<const char*, Room*>("right", thirteenthRoom)); //Using a map creates exits from each room to form a map
+  secondRoom->getExits()->insert(pair<const char*, Room*>("straight", thirdRoom));
+  fourthRoom->getExits()->insert(pair<const char*, Room*>("back", sixthRoom));
+  secondRoom->getExits()->insert(pair<const char*, Room*>("right", sixthRoom));
+  thirdRoom->getExits()->insert(pair<const char*, Room*>("right", fourthRoom));
+  eigthRoom->getExits()->insert(pair<const char*, Room*>("left", seventhRoom));
+  secondRoom->getExits()->insert(pair<const char*, Room*>("right", fifthRoom));
+  fifthRoom->getExits()->insert(pair<const char*, Room*>("straight", fourthRoom));
+  sixthRoom->getExits()->insert(pair<const char*, Room*>("left", seventhRoom));
+  eigthRoom->getExits()->insert(pair<const char*, Room*>("straight", ninthRoom));
+  eigthRoom->getExits()->insert(pair<const char*, Room*>("right", tenthRoom));
+  thirteenthRoom->getExits()->insert(pair<const char*, Room*>("straight", fourteenthRoom));
+  thirteenthRoom->getExits()->insert(pair<const char*, Room*>("left", twelvethRoom));
+  fourteenthRoom->getExits()->insert(pair<const char*, Room*>("left", fifteenthRoom));
+  twelvethRoom->getExits()->insert(pair<const char*, Room*>("left", eleventhRoom));
+  eleventhRoom->getExits()->insert(pair<const char*, Room*>("left", tenthRoom));
+
+  secondRoom->getExits()->insert(pair<const char*, Room*>("right", firstRoom)); //Returning
+  eigthRoom->getExits()->insert(pair<const char*, Room*>("back", firstRoom));
+  thirteenthRoom->getExits()->insert(pair<const char*, Room*>("left", firstRoom));
+  thirdRoom->getExits()->insert(pair<const char*, Room*>("back", secondRoom));
+  sixthRoom->getExits()->insert(pair<const char*, Room*>("straight", fourthRoom));
+  sixthRoom->getExits()->insert(pair<const char*, Room*>("left", secondRoom));
+  fourthRoom->getExits()->insert(pair<const char*, Room*>("left", thirdRoom));
+  seventhRoom->getExits()->insert(pair<const char*, Room*>("right", eigthRoom));
+  fifthRoom->getExits()->insert(pair<const char*, Room*>("left", secondRoom));
+  fourthRoom->getExits()->insert(pair<const char*, Room*>("back", fifthRoom));
+  seventhRoom->getExits()->insert(pair<const char*, Room*>("right", sixthRoom));
+  ninthRoom->getExits()->insert(pair<const char*, Room*>("back", eigthRoom));
+  tenthRoom->getExits()->insert(pair<const char*, Room*>("left", eigthRoom));
+  fourteenthRoom->getExits()->insert(pair<const char*, Room*>("back", thirteenthRoom));
+  twelvethRoom->getExits()->insert(pair<const char*, Room*>("right", thirteenthRoom));
+  fifteenthRoom->getExits()->insert(pair<const char*, Room*>("right", fourteenthRoom));
+  eleventhRoom->getExits()->insert(pair<const char*, Room*>("right", twelvethRoom));
+  tenthRoom->getExits()->insert(pair<const char*, Room*>("right", eleventhRoom));
+
+  Item* Test = new Item((char*)"Test"); //Generation of items
+  firstRoom->addItem(Test); //Adding items to each of the rooms
+  Item* Guinsoos = new Item((char*)"Guinsoo's_Rageblade");
+  tenthRoom->addItem(Guinsoos);
+  firstRoom->addItem(Guinsoos);
+  Item* dblade = new Item((char*)"Doran's_Blade");
+  firstRoom->addItem(dblade);
+  Item* IE = new Item((char*)"Infinity_Edge");
+  eleventhRoom->addItem(IE);
+  Item* Statikk = new Item((char*)"Statikk_Shiv");
+  fifthRoom->addItem(Statikk);
+  Item* BT = new Item((char*)"Bloodthirster");
+  fifteenthRoom->addItem(BT);
+  cout << "Welcome to Zuul!" << endl;
+  cout << "You have spawned in a world plagued by monsters and you need to find the legendary 'Infinity_Edge' to save it!" << endl;
+  while (running) { //Infinitely running until quit or win
+    cout << "-------------------------------------" << endl;
+    cout << "You are currently in ";
+    cout << p->getCurrentRoom()->getName() << endl; //Prints the name of the room
+    cout << "Your Inventory: ";
+    p->printInventory(); //Uses a separate print inventory command
+    cout << endl;
+    cout << "Items in the room: ";
+    p->getCurrentRoom()->printItems(); //Prints the items within the room
+    cout << "Exits: ";
+    p->getCurrentRoom()->getExitDirections(); //Gets the directions for the exits of the room
+    cout << "What would you like to do?" << endl;
+    cout << "Type 'HELP' if you need any help!" << endl;
+    cout << "-------------------------------------" << endl;
+    cin.get(input, 20);
+    cin.clear();
+    cin.ignore(999, '\n');
+    if (strcmp(input, "INVENTORY") == 0) { //Inventory command that prints the inventory of the player
+      p->printInventory();
+    
+    }
+    else if (strcmp(input, "GO") == 0) { //Takes in an input from the player as to where to go from the directions listed for the room
+      char where[20];
+      cout << "Go where?" << endl;
+      cin >> where;
+      cin.clear();
+      cin.ignore();
+      p->setCurrentRoom(p->getCurrentRoom()->exitRoom(where));
+    
+    }
+    else if (strcmp(input, "TAKE") == 0) { //Allows the player to take an item and takes it from the room and adds it to the player's inventory
+      char ItemName[10];
+      cout << "What would you like to take?" << endl;
+      cin >> ItemName;
+      cin.clear();
+      cin.ignore();
+      p->addItem(p->getCurrentRoom()->takeItem(ItemName));
+      if (p->won(ItemName) == true) { //Checks for the win condition: if the player has the item the Infinity Edge
+	running = false;
+	cout << "You have obtained the ultimate item: The Infinity Edge!" << endl;
+	cout << "You win, thanks for playing!" << endl;
+      }
+    }
+    else if (strcmp(input, "DROP") == 0) { //Same thing as take except it drops the item
+      char ItemName[10];
+      cout << "What would you like to drop?" << endl;
+      cin >> ItemName;
+      cin.clear();
+      cin.ignore();
+      p->getCurrentRoom()->addItem(p->takeItem(ItemName));
+    
+    }
+    else if (strcmp(input, "HELP") == 0) { //Prints the available commands
+      cout << "Commands Available: HELP, DROP, QUIT, TAKE, GO, INVENTORY" << endl;
+    
+    }
+    
+    else if (strcmp(input, "QUIT") == 0) { //Required quit function
+      running = false;
+    }
+    }
+}

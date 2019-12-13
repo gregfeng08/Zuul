@@ -1,0 +1,14 @@
+#include <iostream>
+#include <cstring>
+#include "Room.h"
+#include "Item.h"
+
+using namespace std;
+
+Item::Item(char* itemname){
+  name = itemname;
+}
+
+char* Item::getName(){
+  return name;
+}

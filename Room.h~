@@ -1,0 +1,33 @@
+#ifndef ROOM_H
+#define ROOM_H
+
+#include <iostream> //Includes
+#include <cstring>
+#include <vector>
+#include <map>
+#include "Item.h"
+
+using namespace std;
+//Friend told me that this makes it work
+class Room{
+ public:
+  Room(); //Construcotr
+  char* getName(); //Variable and function definitions
+  char* getDescription();
+  vector<Item*>* getItems();
+  map<const char*, Room*>* getExits();
+  bool isValidRoom(char*);
+  Room* exitRoom(char*);
+  void getExitDirections();
+  void addItem(Item*);
+  bool validItem(char* itemName);
+  Item* takeItem(char*);
+  void printItems();
+private: //Private variable function and map definitions
+  char name[40];
+  char description[999];
+  vector<Item*> items;
+  map<const char*, Room*> exits;
+};
+
+#endif

@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <map>
+#include "Room.h"
+#include "Item.h"
+
+using namespace std;
+
+Room::Room(){
+}
+char* Room::getName(){
+  return name;
+}
+char* Room::getDescription(){
+  return description;
+}
+vector<Item*>* Room::getItems(){
+  return &items;	
+}
+void Room::addItem(Item* item){
+  items.push_back(item);
+}
+map<const char*, Room*>* Room::getExits(){
+  return &exits;
+}
+Room* Room::exitRoom(char* room){ 
+  map<const char*, Room*>::iterator i;
+  for(i = this->exits.begin(); i != this->exits.end(); i++){
+    if(strcmp(i->first, room) == 0){
+      return i->second;
+    }
+  }
+  return 0;
+}
+Item* Room::takeItem(char* itemName){
+  vector<Item*>::iterator iterator;
+  for(iterator = items.begin(); iterator != items.end(); iterator++){
+    if(strcmp((*iterator)->getName(), itemName) == 0){
+	  Item* i = (*iterator);
+	  iterator:items.erase(iterator);
+	  return (i);
+    }
+  }
+}
+void Room::getExitDirections(){
+  int counter = 0;
+  map<const char*, Room*>::iterator i;
+  for(i = this->exits.begin(); i != this->exits.end(); i++){
+    if(counter == 0){
+	cout << i->first;
+	counter++;
+     }
+     else{
+	   cout << ", " << i->first;
+	}
+  }
+  cout << endl;
+}
+
+void Room::printItems(){
+  vector<Item*>::iterator i;
+  for(i = items.begin(); i != items.end(); i++){
+    cout << (*i)->getName() << ", ";
+  }
+  cout << endl;
+}
+
+
