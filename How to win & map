@@ -1,0 +1,20 @@
+Map:
+
+
+Top Outer
+        Baron pit
+    Gromp
+              Blue buff 
+Top Inner
+                      Mid Outer
+        Wolves              
+              Mid Inner     Raptors
+                                Red buff
+                                    Krugs
+Nexus                 Bot Inner             Bot Outer
+
+Winning directions:
+right (to Bot Inner)
+left (to Krugs)
+left (to Red buff)
+take (Infinity_Edge)
