@@ -43,7 +43,16 @@ void Player::checkWin() { //Checkwin function that didn't end up being used
     }
   }
 }
-
+bool Player::validItem(char* itemName) { //Checks if the player has the item before dropping (else segfault)
+  vector<Item*>::iterator i;
+  for (i = items.begin(); i != items.end(); i++) {
+    if (strcmp((*i)->getName(), itemName) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 bool Player::won(char* itemName) { //CHecks if the player has the item
   if (strcmp(itemName, "Infinity_Edge") == 0) {
     return true;

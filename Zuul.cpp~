@@ -3,6 +3,12 @@
 #include "Room.h"
 #include "Item.h"
 #include "Player.h"
+/*Zuul code
+Program created by: Gregory Feng
+Program Desc: Mini adventure program where the player travels around a map of the summoner's rift and tries to find a certain item to win.
+Sources: Sethu E.
+ */
+
 
 using namespace std;
 
@@ -10,7 +16,7 @@ int main() {
   char input[20];
   bool running = true;
   
-  Room* firstRoom = new Room();
+  Room* firstRoom = new Room(); //Room creation and definitions
   strcpy(firstRoom->getName(), "Nexus");
   strcpy(firstRoom->getDescription(), "In front of you is a glowing blue crystal, pulsating with mysterious power");
   Player* p = new Player(firstRoom);
@@ -58,7 +64,7 @@ int main() {
   strcpy(fifteenthRoom->getDescription(), "This lonely pit houses one of the greatest monsters of the Summoner's Rift: The elemental drakes.");
   firstRoom->getExits()->insert(pair<const char*, Room*>("left", secondRoom)); //Bit of code gotten from Sethu (unknown period)
   firstRoom->getExits()->insert(pair<const char*, Room*>("straight", eigthRoom)); //First way
-  firstRoom->getExits()->insert(pair<const char*, Room*>("right", thirteenthRoom));
+  firstRoom->getExits()->insert(pair<const char*, Room*>("right", thirteenthRoom)); //Using a map creates exits from each room to form a map
   secondRoom->getExits()->insert(pair<const char*, Room*>("straight", thirdRoom));
   fourthRoom->getExits()->insert(pair<const char*, Room*>("back", sixthRoom));
   secondRoom->getExits()->insert(pair<const char*, Room*>("right", sixthRoom));
@@ -94,8 +100,8 @@ int main() {
   eleventhRoom->getExits()->insert(pair<const char*, Room*>("right", twelvethRoom));
   tenthRoom->getExits()->insert(pair<const char*, Room*>("right", eleventhRoom));
 
-  Item* Test = new Item((char*)"Test");
-  firstRoom->addItem(Test);
+  Item* Test = new Item((char*)"Test"); //Generation of items
+  firstRoom->addItem(Test); //Adding items to each of the rooms
   Item* Guinsoos = new Item((char*)"Guinsoo's_Rageblade");
   tenthRoom->addItem(Guinsoos);
   firstRoom->addItem(Guinsoos);
@@ -109,63 +115,74 @@ int main() {
   fifteenthRoom->addItem(BT);
   cout << "Welcome to Zuul!" << endl;
   cout << "You have spawned in a world plagued by monsters and you need to find the legendary 'Infinity_Edge' to save it!" << endl;
-  while (running) {
+  cout << "All directions in this game are relative to the nexus!" << endl;
+  while (running) { //Infinitely running until quit or win
     cout << "-------------------------------------" << endl;
     cout << "You are currently in ";
-    cout << p->getCurrentRoom()->getName() << endl;
+    cout << p->getCurrentRoom()->getName() << endl; //Prints the name of the room
     cout << "Your Inventory: ";
-    p->printInventory();
+    p->printInventory(); //Uses a separate print inventory command
     cout << endl;
     cout << "Items in the room: ";
-    p->getCurrentRoom()->printItems();
+    p->getCurrentRoom()->printItems(); //Prints the items within the room
     cout << "Exits: ";
-    p->getCurrentRoom()->getExitDirections();
+    p->getCurrentRoom()->getExitDirections(); //Gets the directions for the exits of the room
     cout << "What would you like to do?" << endl;
+    cout << "Type 'HELP' if you need any help!" << endl;
     cout << "-------------------------------------" << endl;
     cin.get(input, 20);
     cin.clear();
     cin.ignore(999, '\n');
-    if (strcmp(input, "INVENTORY") == 0) {
+    if (strcmp(input, "INVENTORY") == 0) { //Inventory command that prints the inventory of the player
       p->printInventory();
     
     }
-    else if (strcmp(input, "GO") == 0) {
+    else if (strcmp(input, "GO") == 0) { //Takes in an input from the player as to where to go from the directions listed for the room
       char where[20];
       cout << "Go where?" << endl;
       cin >> where;
       cin.clear();
       cin.ignore();
-      p->setCurrentRoom(p->getCurrentRoom()->exitRoom(where));
+      if (p->getCurrentRoom()->validExit(where)) {
+	p->setCurrentRoom(p->getCurrentRoom()->exitRoom(where));
+      } else {
+	cout << "Invalid exit" << endl;
+      }
     
     }
-    else if (strcmp(input, "TAKE") == 0) {
+    else if (strcmp(input, "TAKE") == 0) { //Allows the player to take an item and takes it from the room and adds it to the player's inventory
       char ItemName[10];
       cout << "What would you like to take?" << endl;
       cin >> ItemName;
       cin.clear();
       cin.ignore();
-      p->addItem(p->getCurrentRoom()->takeItem(ItemName));
-      if (p->won(ItemName) == true) {
+      if (p->getCurrentRoom()->validItem(ItemName)) {
+	 p->addItem(p->getCurrentRoom()->takeItem(ItemName));
+      } else {
+	cout << "Invalid Item" << endl;
+      }
+      if (p->won(ItemName) == true) { //Checks for the win condition: if the player has the item the Infinity Edge
 	running = false;
 	cout << "You have obtained the ultimate item: The Infinity Edge!" << endl;
 	cout << "You win, thanks for playing!" << endl;
       }
     }
-    else if (strcmp(input, "DROP") == 0) {
+    else if (strcmp(input, "DROP") == 0) { //Same thing as take except it drops the item
       char ItemName[10];
       cout << "What would you like to drop?" << endl;
       cin >> ItemName;
       cin.clear();
       cin.ignore();
-      p->getCurrentRoom()->addItem(p->takeItem(ItemName));
-    
+      if (p->validItem(ItemName)) {
+	p->getCurrentRoom()->addItem(p->takeItem(ItemName));
+      }
     }
-    else if (strcmp(input, "HELP") == 0) {
+    else if (strcmp(input, "HELP") == 0) { //Prints the available commands
       cout << "Commands Available: HELP, DROP, QUIT, TAKE, GO, INVENTORY" << endl;
     
     }
     
-    else if (strcmp(input, "QUIT") == 0) {
+    else if (strcmp(input, "QUIT") == 0) { //Required quit function
       running = false;
     }
     }

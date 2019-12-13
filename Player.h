@@ -20,6 +20,7 @@ class Player{ //Variable and function definitions
   void printInventory();
   void checkWin();
   bool won(char*);
+  bool validItem(char*);
 private: //Private variable and vector definitions
   char name[20];
   vector<Item*> items;

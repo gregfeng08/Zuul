@@ -57,6 +57,28 @@ void Room::getExitDirections(){ //Physically pritns the exits that are available
   }
   cout << endl;
 }
+bool Room::validItem(char* itemName) { //Checks if the Room has the item before picking the item up(else segfault)
+  vector<Item*>::iterator i;
+  for (i = items.begin(); i != items.end(); i++) {
+    if (strcmp((*i)->getName(), itemName) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+bool Room::validExit(char* room) { //Checks if the exit is there before moving (else segfault)
+  int counter = 0;
+  map<const char*, Room*>::iterator i;
+  for (i = this->exits.begin(); i != this->exits.end(); i++) {
+    
+    if (strcmp(room, i->first) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 
 void Room::printItems(){ //Prints all of the items in the room
   vector<Item*>::iterator i;

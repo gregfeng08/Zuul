@@ -15,7 +15,7 @@ class Room{
   char* getDescription();
   vector<Item*>* getItems();
   map<const char*, Room*>* getExits();
-  bool isValidRoom(char*);
+  bool validExit(char*);
   Room* exitRoom(char*);
   void getExitDirections();
   void addItem(Item*);

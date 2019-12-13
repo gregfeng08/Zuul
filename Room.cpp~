@@ -7,24 +7,24 @@
 
 using namespace std;
 
-Room::Room(){
+Room::Room(){ //Empty constructor
 }
-char* Room::getName(){
+char* Room::getName(){ //Gets the name of the room
   return name;
 }
-char* Room::getDescription(){
+char* Room::getDescription(){ //Returns the desc of the room
   return description;
 }
-vector<Item*>* Room::getItems(){
+vector<Item*>* Room::getItems(){ //Gives the items in the room by ref
   return &items;	
 }
-void Room::addItem(Item* item){
+void Room::addItem(Item* item){ //Adds an item to the room
   items.push_back(item);
 }
-map<const char*, Room*>* Room::getExits(){
+map<const char*, Room*>* Room::getExits(){ //Uses a map and gives the exits by ref
   return &exits;
 }
-Room* Room::exitRoom(char* room){ 
+Room* Room::exitRoom(char* room){ //USed for go command and lets the player exit the room
   map<const char*, Room*>::iterator i;
   for(i = this->exits.begin(); i != this->exits.end(); i++){
     if(strcmp(i->first, room) == 0){
@@ -33,7 +33,7 @@ Room* Room::exitRoom(char* room){
   }
   return 0;
 }
-Item* Room::takeItem(char* itemName){
+Item* Room::takeItem(char* itemName){ //Similar function for the player so that they can swap items
   vector<Item*>::iterator iterator;
   for(iterator = items.begin(); iterator != items.end(); iterator++){
     if(strcmp((*iterator)->getName(), itemName) == 0){
@@ -43,7 +43,7 @@ Item* Room::takeItem(char* itemName){
     }
   }
 }
-void Room::getExitDirections(){
+void Room::getExitDirections(){ //Physically pritns the exits that are available to each room
   int counter = 0;
   map<const char*, Room*>::iterator i;
   for(i = this->exits.begin(); i != this->exits.end(); i++){
@@ -57,8 +57,30 @@ void Room::getExitDirections(){
   }
   cout << endl;
 }
+bool Room::validItem(char* itemName) {
+  vector<Item*>::iterator i;
+  for (i = items.begin(); i != items.end(); i++) {
+    if (strcmp((*i)->getName(), itemName) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+bool Room::validExit(char* room) {
+  int counter = 0;
+  map<const char*, Room*>::iterator i;
+  for (i = this->exits.begin(); i != this->exits.end(); i++) {
+    
+    if (strcmp(room, i->first) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 
-void Room::printItems(){
+void Room::printItems(){ //Prints all of the items in the room
   vector<Item*>::iterator i;
   for(i = items.begin(); i != items.end(); i++){
     cout << (*i)->getName() << ", ";

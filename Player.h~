@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Player{
+class Player{ //Variable and function definitions
  public:
   Player(Room*);
   char* getName();
@@ -20,7 +20,7 @@ class Player{
   void printInventory();
   void checkWin();
   bool won(char*);
-private:
+private: //Private variable and vector definitions
   char name[20];
   vector<Item*> items;
   Room* currentRoom;

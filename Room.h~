@@ -8,7 +8,6 @@
 #include "Item.h"
 
 using namespace std;
-//Friend told me that this makes it work
 class Room{
  public:
   Room(); //Construcotr
@@ -16,7 +15,7 @@ class Room{
   char* getDescription();
   vector<Item*>* getItems();
   map<const char*, Room*>* getExits();
-  bool isValidRoom(char*);
+  bool validRoom(char*);
   Room* exitRoom(char*);
   void getExitDirections();
   void addItem(Item*);

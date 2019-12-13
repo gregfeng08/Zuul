@@ -115,6 +115,7 @@ int main() {
   fifteenthRoom->addItem(BT);
   cout << "Welcome to Zuul!" << endl;
   cout << "You have spawned in a world plagued by monsters and you need to find the legendary 'Infinity_Edge' to save it!" << endl;
+  cout << "All directions in this game are relative to the nexus!" << endl;
   while (running) { //Infinitely running until quit or win
     cout << "-------------------------------------" << endl;
     cout << "You are currently in ";
@@ -142,7 +143,11 @@ int main() {
       cin >> where;
       cin.clear();
       cin.ignore();
-      p->setCurrentRoom(p->getCurrentRoom()->exitRoom(where));
+      if (p->getCurrentRoom()->validExit(where)) {
+	p->setCurrentRoom(p->getCurrentRoom()->exitRoom(where));
+      } else {
+	cout << "Invalid exit" << endl;
+      }
     
     }
     else if (strcmp(input, "TAKE") == 0) { //Allows the player to take an item and takes it from the room and adds it to the player's inventory
@@ -151,7 +156,11 @@ int main() {
       cin >> ItemName;
       cin.clear();
       cin.ignore();
-      p->addItem(p->getCurrentRoom()->takeItem(ItemName));
+      if (p->getCurrentRoom()->validItem(ItemName)) {
+	 p->addItem(p->getCurrentRoom()->takeItem(ItemName));
+      } else {
+	cout << "Invalid Item" << endl;
+      }
       if (p->won(ItemName) == true) { //Checks for the win condition: if the player has the item the Infinity Edge
 	running = false;
 	cout << "You have obtained the ultimate item: The Infinity Edge!" << endl;
@@ -164,8 +173,11 @@ int main() {
       cin >> ItemName;
       cin.clear();
       cin.ignore();
-      p->getCurrentRoom()->addItem(p->takeItem(ItemName));
-    
+      if (p->validItem(ItemName)) {
+	p->getCurrentRoom()->addItem(p->takeItem(ItemName));
+      } else {
+	cout << "Invalid Item" << endl;
+      }
     }
     else if (strcmp(input, "HELP") == 0) { //Prints the available commands
       cout << "Commands Available: HELP, DROP, QUIT, TAKE, GO, INVENTORY" << endl;
