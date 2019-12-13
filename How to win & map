@@ -18,3 +18,8 @@ right (to Bot Inner)
 left (to Krugs)
 left (to Red buff)
 take (Infinity_Edge)
+
+Game Notes:
+-Game commands can only be inputted in the upper case
+-To go somewhere, the exact exit name must be typed ie. (right)
+
